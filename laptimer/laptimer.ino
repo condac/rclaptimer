@@ -2,8 +2,11 @@
 #include <LiquidCrystal.h>
 
 const int buttonPin = A0; 
+const int buzzerPin = 13;
 int test;
 int laps = 0;
+int buzzerLength = 500;
+int mintime = 2000;
 LiquidCrystal lcd( 8, 9, 4, 5, 6, 7 );
 String extid = "12.34";
 
@@ -22,6 +25,7 @@ void setup()
     
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);  
+  pinMode(buzzerPin, OUTPUT);
   
   lcd.begin(16, 2);
   lcd.print(".");
@@ -60,12 +64,20 @@ void loop()
       
       if (time < best) {
         best = time;
+        digitalWrite(buzzerPin, HIGH);
+        drawDisplay();
+        delay(buzzerLength);
+        digitalWrite(buzzerPin,LOW);
+        delay(buzzerLength);
       }
-      
+      digitalWrite(buzzerPin, HIGH);
+      drawDisplay();
+      delay(buzzerLength);
+      digitalWrite(buzzerPin,LOW);
       //writeTime();
       lasttime=readtime;
       drawDisplay();
-      delay(2000);
+      delay(mintime);
     }
 }
 
