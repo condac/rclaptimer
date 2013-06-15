@@ -4,6 +4,7 @@
 
 const int buttonPin = A0; 
 const int buzzerPin = 13;
+const int SDpin = 4;
 int test;
 int laps = 0;
 int buzzerLength = 500;
@@ -26,7 +27,8 @@ void setup()
 {
     Serial.begin(9600);
   // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);  
+  pinMode(buttonPin, INPUT);
+  digitalWrite(buttonPin,LOW);  
   pinMode(buzzerPin, OUTPUT);
   
   lcd.begin(16, 2);
@@ -39,8 +41,10 @@ void setup()
   // or the SD library functions will not work. 
    pinMode(10, OUTPUT);
    
-  if (!SD.begin(4)) {
+  if (!SD.begin(SDpin)) {
     Serial.println("initialization failed!");
+    lcd.print("SD ERROR");
+    delay(5000);
     return;
   }
   Serial.println("initialization done.");
@@ -62,10 +66,7 @@ void setup()
     }
   }
   
-  if (! logfile) {
-    lcd.print("SD ERROR");
-    delay(5000);
-  }
+
 }
 
 void loop()
